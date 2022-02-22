@@ -1,0 +1,263 @@
+--SQL for queries for the project
+
+CREATE DATABASE `gigdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+
+CREATE TABLE gigdb.seeker (
+	sid INT NOT NULL,
+	emailid varchar(100) NOT NULL,
+	pswd varchar(100) NOT NULL,
+	fname varchar(100) NOT NULL,
+	lname varchar(100) NULL,
+	phno varchar(100) NOT NULL,
+	country varchar(100) NULL,
+	plan varchar(100) NULL,
+	plan_cre_ts DATETIME NULL,
+	planstatus varchar(100) NULL,
+	userstatus varchar(100) NOT NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	CONSTRAINT seeker_pk PRIMARY KEY (sid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Details of Job Seeker';
+
+
+CREATE TABLE gigdb.provider (
+	pid INT NOT NULL,
+	company varchar(100) NOT NULL,
+	emailid varchar(100) NOT NULL,
+	pswd varchar(100) NOT NULL,
+	phno varchar(100) NOT NULL,
+	country varchar(100) NULL,
+	userstatus varchar(100) NOT NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	CONSTRAINT provider_pk PRIMARY KEY (pid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Details of Job Provider';
+
+CREATE TABLE gigdb.gigs (
+	gid INT NOT NULL,
+	title varchar(100) NOT NULL,
+	description varchar(100) NULL,
+	dop DATETIME NOT NULL,
+	deadline DATETIME NOT NULL,
+	category varchar(100) NOT NULL,
+	tags varchar(100) NULL,
+	mode varchar(100) NOT NULL,
+	pay FLOAT NOT NULL,
+	gigstatus varchar(100) NOT NULL,
+	sid INT NOT NULL,
+	pid INT NOT NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	CONSTRAINT gigs_pk PRIMARY KEY (gid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Details of Gig jobs';
+
+CREATE TABLE gigdb.Portfolio (
+	sid INT NOT NULL,
+	about varchar(100) NULL,
+	education varchar(100) NULL,
+	`position` varchar(100) NULL,
+	experience varchar(100) NULL,
+	skills varchar(100) NULL,
+	cre_rec_ts DATETIME NULL,
+	upd_rec_ts DATETIME NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Seeker''s Portfolio';
+
+ALTER TABLE gigdb.seeker MODIFY COLUMN sid int(11) auto_increment NOT NULL;
+ALTER TABLE gigdb.provider MODIFY COLUMN sid int(11) auto_increment NOT NULL;
+ALTER TABLE gigdb.gigs MODIFY COLUMN sid int(11) auto_increment NOT NULL;
+
+CREATE TABLE gigdb.proposals (
+	gid INT NOT NULL,
+	sid INT NOT NULL,
+	msg varchar(100) NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Proposals send by seekers against a gig';
+
+ALTER TABLE gigdb.portfolio MODIFY COLUMN cre_rec_ts datetime DEFAULT NULL NOT NULL;
+ALTER TABLE gigdb.portfolio MODIFY COLUMN upd_rec_ts datetime DEFAULT NULL NOT NULL;
+
+ALTER TABLE gigdb.gigs ADD location varchar(100) NOT NULL
+
+ALTER TABLE gigdb.seeker ADD dob DATE NOT NULL;
+ALTER TABLE gigdb.seeker ADD gender varchar(100) NOT NULL;
+
+ALTER TABLE gigdb.seeker ADD securityq varchar(100) NOT NULL;
+ALTER TABLE gigdb.seeker ADD securitya varchar(100) NOT NULL;
+
+ALTER TABLE gigdb.proposals ADD pid int(11) NOT NULL;
+
+ALTER TABLE gigdb.portfolio ADD CONSTRAINT portfolio_pk PRIMARY KEY (sid);
+
+ALTER TABLE gigdb.portfolio DROP COLUMN education;
+ALTER TABLE gigdb.portfolio DROP COLUMN experience;
+
+ALTER TABLE gigdb.gigs ADD payment INT NOT NULL;
+ALTER TABLE gigdb.gigs ADD view_count INT NOT NULL;
+
+
+*1* create query for seeker table with all columns
+CREATE TABLE gigdb.seeker (
+	sid INT NOT NULL AUTO_INCREMENT,
+	emailid varchar(100) NOT NULL,
+	pswd varchar(100) NOT NULL,
+	fname varchar(100) NOT NULL,
+	lname varchar(100) NULL,
+	phno varchar(100) NOT NULL,
+	country varchar(100) NULL,
+	plan varchar(100) NULL,
+	plan_cre_ts DATETIME NULL,
+	planstatus varchar(100) NULL,
+	userstatus varchar(100) NOT NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	securityq varchar(100) NOT NULL,
+	securitya varchar(100) NOT NULL,
+	dob DATE NOT NULL,
+	gender varchar(100) NOT NULL,
+	CONSTRAINT seeker_pk PRIMARY KEY (sid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Details of Job Seeker';
+
+*2* create query for provider table with all columns
+CREATE TABLE gigdb.provider (
+	pid INT NOT NULL AUTO_INCREMENT,
+	company varchar(100) NOT NULL,
+	emailid varchar(100) NOT NULL,
+	pswd varchar(100) NOT NULL,
+	phno varchar(100) NOT NULL,
+	country varchar(100) NULL,
+	userstatus varchar(100) NOT NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	CONSTRAINT provider_pk PRIMARY KEY (pid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Details of Job Provider';
+
+*3* create query for gigs table with all columns
+CREATE TABLE gigdb.gigs (
+	gid INT NOT NULL AUTO_INCREMENT,
+	title varchar(100) NOT NULL,
+	description varchar(100) NULL,
+	dop DATETIME NOT NULL,
+	deadline DATETIME NOT NULL,
+	category varchar(100) NOT NULL,
+	tags varchar(100) NULL,
+	mode varchar(100) NOT NULL,
+	pay FLOAT NOT NULL,
+	gigstatus varchar(100) NOT NULL,
+	sid INT NOT NULL,
+	pid INT NOT NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	location varchar(100) NOT NULL,
+	payment INT NOT NULL,
+	view_count INT NOT NULL,
+	CONSTRAINT gigs_pk PRIMARY KEY (gid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Details of Gig jobs';
+
+*4* create query for portfolio table with all columns
+CREATE TABLE gigdb.Portfolio (
+	sid INT NOT NULL,
+	about varchar(100) NULL,
+	`position` varchar(100) NULL,
+	skills varchar(100) NULL,
+	cre_rec_ts DATETIME NULL,
+	upd_rec_ts DATETIME NULL,
+	CONSTRAINT portfolio_pk PRIMARY KEY (sid)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Seeker''s Portfolio';
+
+*5* create query for proposals table with all columns
+CREATE TABLE gigdb.proposals (
+	gid INT NOT NULL,
+	sid INT NOT NULL,
+	msg varchar(100) NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL,
+	pid int(11) NOT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='Proposals send by seekers against a gig';
+
+*6* create query for education table with all columns
+CREATE TABLE gigdb.education (
+	sid INT NOT NULL,
+	course varchar(100) NULL,
+	course_title varchar(100) NULL,
+	university varchar(100) NULL,
+	from_date DATE NULL,
+	to_date DATE NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='seeker education details';
+
+*7* create query for experience table with all columns
+CREATE TABLE gigdb.experience (
+	sid INT NOT NULL,
+	job_title varchar(100) NULL,
+	company varchar(100) NULL,
+	location varchar(100) NULL,
+	country varchar(100) NULL,
+	from_date DATE NULL,
+	to_date DATE NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='seeker experience details';
+
+*8* create query for certification table with all columns
+CREATE TABLE gigdb.certification (
+	sid INT NOT NULL,
+	title varchar(100) NULL,
+	from_date DATE NULL,
+	to_date DATE NULL,
+	cre_rec_ts DATETIME NOT NULL,
+	upd_rec_ts DATETIME NOT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
+COMMENT='seeker certification details';
